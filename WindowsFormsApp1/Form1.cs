@@ -19,17 +19,22 @@ namespace WindowsFormsApp1
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var testFilePath = System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + @"\test.xlsx";
+            var originalPath = System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + @"\original.xlsx";
+            var testFilePath = System.Environment.GetFolderPath(
+                Environment.SpecialFolder.DesktopDirectory) + 
+                @"\updated_" + 
+                DateTime.Now.ToString("gyyyy年MM月dd日ddddtthh時mm分ss") + 
+                ".xlsx";
             System.IO.File.Copy(
-                @"C:\Users\真透\Downloads\領収書テンプレート.xlsx",
+                originalPath,
                 testFilePath,
                 true
                 );
             var a = new ClosedXML.Excel.XLWorkbook(testFilePath);
             var ws = a.Worksheet(1);
-            MessageBox.Show(ws.Cell("A4").Value.ToString());
-            ws.Cell("A4").Value = "ファランクスウェア";
+            ws.Cell("A4").Value = textBox1.Text;
             a.Save();
+            MessageBox.Show(testFilePath + "を保存しました。");
         }
     }
 }
